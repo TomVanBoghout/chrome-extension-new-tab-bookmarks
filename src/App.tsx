@@ -1,11 +1,20 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { useCounterStore } from './storage/counter.store';
 
-function App() {
+export const App = () => {
+  const [value, setValue, isPersistent, error] = useCounterStore();
   return (
     <div className="App">
       <header className="App-header">
+        <button
+            onClick={() => {
+              setValue((prev: number) => (prev + 1));
+            }}
+        >
+          Increment in Chrome sync Storage {value}
+        </button>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -22,5 +31,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
