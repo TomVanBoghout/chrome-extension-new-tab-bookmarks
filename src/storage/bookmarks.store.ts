@@ -1,5 +1,5 @@
 import { createChromeStorageStateHookSync } from 'use-chrome-storage';
-import { IBookmark } from '../types';
+import { IBookmark, IChromeStore } from '../types';
 
 const initialValue: IBookmark[] = [
   {
@@ -9,7 +9,26 @@ const initialValue: IBookmark[] = [
   },
 ];
 
-export const useBookmarksStore = createChromeStorageStateHookSync(
+const bookmarkStore = createChromeStorageStateHookSync(
   'BOOKMARKS',
   initialValue,
 );
+
+export const useBookmarkStore = () => {
+  const [
+    bookmarks,
+    setBookmarks,
+    isBookmarksPersistent,
+    bookmarksError,
+  ]: IChromeStore<IBookmark[]> = bookmarkStore();
+
+  const resetBookmarks = () => setBookmarks(initialValue);
+
+  return {
+    bookmarks,
+    bookmarksError,
+    isBookmarksPersistent,
+    resetBookmarks,
+    setBookmarks,
+  };
+};

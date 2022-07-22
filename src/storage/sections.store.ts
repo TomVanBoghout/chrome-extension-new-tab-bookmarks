@@ -1,5 +1,5 @@
 import { createChromeStorageStateHookSync } from 'use-chrome-storage';
-import { ISection } from '../types';
+import { IChromeStore, ISection } from '../types';
 
 const initialValue: ISection[] = [
   {
@@ -8,7 +8,23 @@ const initialValue: ISection[] = [
   },
 ];
 
-export const useSectionsStore = createChromeStorageStateHookSync(
-  'SECTIONS',
-  initialValue,
-);
+const sectionStore = createChromeStorageStateHookSync('SECTIONS', initialValue);
+
+export const useSectionStore = () => {
+  const [
+    sections,
+    setSections,
+    isSectionsPersistent,
+    sectionsError,
+  ]: IChromeStore<ISection[]> = sectionStore();
+
+  const resetSections = () => setSections(initialValue);
+
+  return {
+    sections,
+    sectionsError,
+    isSectionsPersistent,
+    resetSections,
+    setSections,
+  };
+};

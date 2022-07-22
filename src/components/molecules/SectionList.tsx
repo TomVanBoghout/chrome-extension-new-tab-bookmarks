@@ -1,12 +1,9 @@
 import React, { FC } from 'react';
-import { useSectionsStore } from '../../storage';
-import { ISection } from '../../types';
+import { useSectionStore } from '../../storage';
 import { SectionTitle } from '../atoms';
 
 export const SectionList: FC = () => {
-  const [sections, setSections, isPersistent, error]: Array<
-    [ISection[], any, any, any]
-  > = useSectionsStore();
+  const { sections } = useSectionStore();
 
   return (
     <>
