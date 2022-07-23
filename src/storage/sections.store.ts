@@ -11,19 +11,23 @@ const initialValue: ISection[] = [
 const sectionStore = createChromeStorageStateHookSync('SECTIONS', initialValue);
 
 export const useSectionStore = () => {
-  const [
-    sections,
-    setSections,
-    isSectionsPersistent,
-    sectionsError,
-  ]: IChromeStore<ISection[]> = sectionStore();
+  const [sections, setSections, isSectionsPersistent, sectionsError]: IChromeStore<ISection[]> = sectionStore();
 
   const resetSections = () => setSections(initialValue);
+  const addSection = (title: string) => {
+    setSections(
+      sections.concat({
+        id: `${title}-${Date.now()}`,
+        title,
+      }),
+    );
+  };
 
   return {
     sections,
     sectionsError,
     isSectionsPersistent,
+    addSection,
     resetSections,
     setSections,
   };

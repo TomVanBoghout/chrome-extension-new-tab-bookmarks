@@ -1,20 +1,13 @@
 import React from 'react';
 import './App.css';
-import { useCounterStore } from './storage/counter.store';
-import { SectionList } from './components/molecules/SectionList';
+import { SectionList } from './components/molecules';
+import { GlobalStyle } from './components/atoms';
+import { AddSection } from './components/molecules/AddSection.component';
 
-export const App = () => {
-  const [value, setValue, isPersistent, error] = useCounterStore();
-  return (
-    <div className="App">
-      <button
-        onClick={() => {
-          setValue((prev: number) => prev + 1);
-        }}
-      >
-        Increment in Chrome sync Storage {value}
-      </button>
-      <SectionList />
-    </div>
-  );
-};
+export const App = () => (
+  <>
+    <GlobalStyle />
+    <SectionList />
+    <AddSection />
+  </>
+);
