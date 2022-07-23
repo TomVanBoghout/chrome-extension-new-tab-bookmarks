@@ -13,7 +13,7 @@ export const SectionList: FC = () => {
   return (
     <Wrapper>
       {sections.map((section) => (
-        <Section section={section} />
+        <Section section={section} key={section.id} />
       ))}
     </Wrapper>
   );
