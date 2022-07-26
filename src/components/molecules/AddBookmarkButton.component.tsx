@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { SectionTitle } from '../atoms';
 import styled from 'styled-components';
 import { palette } from '../../constants';
 import { useSectionStore } from '../../storage';
@@ -16,18 +15,19 @@ const Button = styled.button`
   }
 `;
 
-export const AddSection: FC = () => {
-  const { addSection } = useSectionStore();
+interface IProps {
+  sectionId: string;
+}
+
+export const AddBookmarkButton: FC<IProps> = ({ sectionId }) => {
+  const { addBookmark } = useSectionStore();
 
   const onClick = () => {
-    const sectionTitle = prompt('Please enter section title', 'Section title');
-    if (!!sectionTitle) {
-      addSection(sectionTitle);
+    const url = prompt('Please enter url', 'https://');
+    if (!!url) {
+      const name = prompt('Please enter display name', url);
+      !!name && addBookmark(sectionId, { url, name });
     }
   };
-  return (
-    <Button onClick={onClick}>
-      <SectionTitle>Add new section</SectionTitle>
-    </Button>
-  );
+  return <Button onClick={onClick}>Add Bookmark</Button>;
 };
