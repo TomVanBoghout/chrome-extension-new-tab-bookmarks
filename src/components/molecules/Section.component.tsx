@@ -15,6 +15,11 @@ const Wrapper = styled.div`
   // box-shadow: 2px 2px 4px 0 ${palette.main};
 `;
 
+const BookmarksWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 interface IProps {
   section: ISection;
 }
@@ -23,9 +28,11 @@ export const Section: FC<IProps> = ({ section: { bookmarks, id, title } }) => {
   return (
     <Wrapper>
       <SectionTitle>{title}</SectionTitle>
-      {bookmarks.map((bookmark) => (
-        <Bookmark {...bookmark} />
-      ))}
+      <BookmarksWrapper>
+        {bookmarks.map((bookmark) => (
+          <Bookmark {...bookmark} />
+        ))}
+      </BookmarksWrapper>
       <AddBookmarkButton sectionId={id} />
     </Wrapper>
   );
