@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { palette } from '../../constants';
 import { ISection } from '../../types';
 import { AddBookmarkButton } from './AddBookmarkButton.component';
+import { useSectionStore } from '../../storage';
 
 const Wrapper = styled.div`
   background-color: ${palette.dark};
@@ -25,12 +26,13 @@ interface IProps {
 }
 
 export const Section: FC<IProps> = ({ section: { bookmarks, id, title } }) => {
+  const { removeBookmark } = useSectionStore();
   return (
     <Wrapper>
       <SectionTitle>{title}</SectionTitle>
       <BookmarksWrapper>
         {bookmarks.map((bookmark) => (
-          <Bookmark {...bookmark} />
+          <Bookmark bookmark={bookmark} onRemoveBookmark={() => removeBookmark(id, bookmark.id)} />
         ))}
       </BookmarksWrapper>
       <AddBookmarkButton sectionId={id} />

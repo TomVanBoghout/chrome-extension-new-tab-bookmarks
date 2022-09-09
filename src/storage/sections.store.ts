@@ -20,9 +20,13 @@ export const useSectionStore = () => {
       sections.concat({
         id: `${title}-${Date.now()}`,
         title,
-        bookmarks: [{ url: 'https://kvmechelen.be', name: 'KV Mechelen', id: `KV Mechelen-${Date.now()}` }],
+        bookmarks: [],
       }),
     );
+  };
+
+  const removeSection = (sectionId: string) => {
+    setSections(sections.filter(({ id }) => id !== sectionId));
   };
 
   const addBookmark = (sectionId: string, bookmark: IBookmark) => {
@@ -39,12 +43,28 @@ export const useSectionStore = () => {
     );
   };
 
+  const removeBookmark = (sectionId: string, bookmarkId: string) => {
+    setSections(
+      sections.map((section) => {
+        if (section.id === sectionId) {
+          return {
+            ...section,
+            bookmarks: section.bookmarks.filter(({ id }) => id !== bookmarkId),
+          };
+        }
+        return section;
+      }),
+    );
+  };
+
   return {
     sections,
     sectionsError,
     isSectionsPersistent,
     addBookmark,
     addSection,
+    removeBookmark,
+    removeSection,
     resetSections,
     setSections,
   };

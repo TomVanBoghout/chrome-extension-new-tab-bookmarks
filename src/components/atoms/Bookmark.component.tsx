@@ -1,23 +1,13 @@
 import styled from 'styled-components';
 import { IBookmarkEntity } from '../../types';
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { palette } from '../../constants';
 import { getFavIconUrl } from '../../utils';
 
-const Link = styled.a`
-  margin: 1em;
-  &:hover {
-    background-color: ${palette.light};
-    border-radius: 5px;
-    color: ${palette.dark};
-  }
-  ,
-  &:focus,
-  &:visited,
-  &:link,
-  &:active {
-    text-decoration: none;
-  }
+const BookmarkLink = styled.span`
+  color: ${palette.light};
+  font-size: 1em;
+  text-align: center;
 `;
 
 const Wrapper = styled.div`
@@ -31,22 +21,62 @@ const Wrapper = styled.div`
   height: 50px;
   width: 50px;
 `;
+
+const DeleteIcon = styled.button`
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  background-color: ${palette.main};
+  width: 20px;
+  height: 20px;
+  border-radius: 30px;
+`;
+
+const Link = styled.a`
+  margin: 1em;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  &:hover {
+    background-color: ${palette.light};
+    border-radius: 5px;
+  }
+  &:hover ${BookmarkLink} {
+    color: ${palette.dark};
+  }
+  &:focus,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`;
+
 const FavIcon = styled.img`
   height: 32px;
   width: 32px;
 `;
 
-const BookmarkLink = styled.span`
-  color: ${palette.light};
-  font-size: 1em;
-  text-align: center;
-`;
+interface IProps {
+  onRemoveBookmark(): void;
+  bookmark: IBookmarkEntity;
+}
 
-export const Bookmark: FC<IBookmarkEntity> = ({ name, url }) => (
-  <Link href={url}>
-    <Wrapper>
-      <FavIcon alt="Bookmarked FavIcon" src={getFavIconUrl(url)} />
-    </Wrapper>
-    <BookmarkLink>{name}</BookmarkLink>
-  </Link>
-);
+export const Bookmark: FC<IProps> = ({ bookmark: { id, name, url }, onRemoveBookmark }) => {
+  const onRemove = (event: React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    onRemoveBookmark();
+  };
+
+  return (
+    <Link href={url}>
+      <DeleteIcon onClick={onRemove} />
+      <Wrapper>
+        <FavIcon alt="Bookmarked FavIcon" src={getFavIconUrl(url)} />
+      </Wrapper>
+      <BookmarkLink>{name}</BookmarkLink>
+    </Link>
+  );
+};
