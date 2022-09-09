@@ -3,6 +3,7 @@ import { IBookmarkEntity } from '../../types';
 import React, { FC } from 'react';
 import { palette } from '../../constants';
 import { getFavIconUrl } from '../../utils';
+import { MdDeleteOutline } from 'react-icons/md';
 
 const BookmarkLink = styled.span`
   color: ${palette.light};
@@ -72,7 +73,9 @@ export const Bookmark: FC<IProps> = ({ bookmark: { id, name, url }, onRemoveBook
 
   return (
     <Link href={url}>
-      <DeleteIcon onClick={onRemove} />
+      <DeleteIcon onClick={onRemove}>
+        <MdDeleteOutline style={{ position: 'absolute', right: '1.5px', top: '1.5px' }} />
+      </DeleteIcon>
       <Wrapper>
         <FavIcon alt="Bookmarked FavIcon" src={getFavIconUrl(url)} />
       </Wrapper>
